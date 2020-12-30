@@ -11,6 +11,7 @@ public class DoctorTest {
     Vector2D position;;
     int bombs;
     int teleports;
+    int rewinds;
     Doctor doctor;
 
     @BeforeEach
@@ -18,7 +19,8 @@ public class DoctorTest {
         position = new Vector2D(2,2);
         bombs = 1;
         teleports = 3;
-        doctor = new Doctor(position, bombs, teleports);
+        rewinds = 3;
+        doctor = new Doctor(position, bombs, teleports, rewinds);
     }
 
     @Test
@@ -46,7 +48,7 @@ public class DoctorTest {
 
         //then
         assertEquals(teleportedPosition, doctor.getPosition());
-        assertEquals(2, doctor.getTeleports());
+        assertEquals(2, doctor.getTeleports().get());
         assertEquals(prevPosition, doctor.getPrevPosition());
     }
 
@@ -62,7 +64,7 @@ public class DoctorTest {
 
         //then
         assertEquals(teleportedPositionTwo, doctor.getPosition());
-        assertEquals(1, doctor.getTeleports());
+        assertEquals(1, doctor.getTeleports().get());
         assertEquals(teleportedPositionOne, doctor.getPrevPosition());
     }
 
@@ -80,7 +82,7 @@ public class DoctorTest {
 
         //then
         assertEquals(teleportedPositionThree, doctor.getPosition());
-        assertEquals(0, doctor.getTeleports());
+        assertEquals(0, doctor.getTeleports().get());
         assertEquals(teleportedPositionTwo, doctor.getPrevPosition());
     }
 
@@ -100,7 +102,7 @@ public class DoctorTest {
 
         //then
         assertEquals(teleportedPositionThree, doctor.getPosition());
-        assertEquals(0, doctor.getTeleports());
+        assertEquals(0, doctor.getTeleports().get());
         assertEquals(teleportedPositionTwo, doctor.getPrevPosition());
     }
 
@@ -112,7 +114,7 @@ public class DoctorTest {
         doctor.useBomb();
 
         //then
-        assertEquals(0, doctor.getBombs());
+        assertEquals(0, doctor.getBombs().get());
     }
 
     @Test
@@ -124,6 +126,18 @@ public class DoctorTest {
         doctor.useBomb();
 
         //then
-        assertEquals(0, doctor.getBombs());
+        assertEquals(0, doctor.getBombs().get());
+    }
+
+    @Test
+    public void useRewindTest() {
+        //given //when //then
+        assertEquals(3, doctor.getRewinds().get());
+        for(int i = 0; i<5; i++) {
+            doctor.useRewind();
+        }
+        assertEquals(0, doctor.getRewinds().get());
+        doctor.useRewind();
+        assertEquals(0, doctor.getRewinds().get());
     }
 }

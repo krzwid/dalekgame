@@ -39,10 +39,11 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testDownLeftBoundaries() {
+    public void downLeftBoundariesTest() {
         //given
         doctor.move(new Vector2D(0,0));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
 
         //when
         world.makeMove(Direction.SOUTHWEST);
@@ -57,10 +58,11 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testTopRightBoundaries() {
+    public void topRightBoundariesTest() {
         //given
         doctor.move(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
 
         //when
         world.makeMove(Direction.SOUTHWEST);
@@ -75,7 +77,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testDaleksFollowingDoctor() { //TODO: split test to more cases for easier separation?
+    public void daleksFollowingDoctorTest() {
         //given
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
@@ -86,7 +88,8 @@ public class DoctorMovementTestIT {
         daleks.forEach(worldMap::addEntity);
 
         doctor.move(new Vector2D(5,2));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
 
         //when
         world.makeMove(Direction.WEST); // x-=1, y+=0
@@ -101,7 +104,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testAfterTeleportDaleksMovement(){
+    public void afterTeleportDaleksMovementTest(){
         //given
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
@@ -110,7 +113,8 @@ public class DoctorMovementTestIT {
         daleks.forEach(worldMap::addEntity);
 
         doctor.move(new Vector2D(0,0));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
         Vector2D newPosition = new Vector2D(5,5);
 
         //when
@@ -125,7 +129,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testAfterBombDaleksMovement(){
+    public void afterBombDaleksMovementTest(){
         //given
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
@@ -135,7 +139,8 @@ public class DoctorMovementTestIT {
         daleks.forEach(worldMap::addEntity);
 
         doctor.move(new Vector2D(0,0));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
 
         //when
         world.useBomb();
@@ -147,10 +152,5 @@ public class DoctorMovementTestIT {
         assertEquals(new Vector2D(7,1), dalekRight.getPosition());
         assertEquals(new Vector2D(0,1), dalekDead.getPosition());
     }
-
-
-
-
-
 
 }

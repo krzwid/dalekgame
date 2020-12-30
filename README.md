@@ -1,29 +1,23 @@
 # Daleks game
 
+<i>Daleks game</i> jest grą, w której biorą udział dwa rodzaje postaci:<br>
+    doktor - jest głównym bohaterem i postacią, którą sterujemy <br>
+    daleki - są potworkami, które chcą zjeść naszego doktorka - z każdym naszym ruchem daleki przybliżają się do nas coraz bardziej...
+    <br><br>
+Aby pozbyć sie daleków z planszy i wygrać grę trzeba tak poruszać doktorkiem, żeby zderzać daleki ze sobą lub z martwymi dalekami. Martwe daleki (skamieliny) powstają właśnie podczas zderzania daleków ze soba. Są jak bardzo ostre kamienie na planszy - nie poruszają się za doktorkiem ale gry doktorek na nie wejdzie to skaleczy się, wykrwawi i umrze. A wtedy nastąpi koniec gry :(.
+<br><br>
+Weź los doktorka w swoje ręce! Pokonaj potworne daleki i zdobądź chwałę! Nie daj doktorkowi zginąć!
+<br><br> 
+STEROWANIE:<br>
+Aby poruszać doktorkiem po planszy wykorzystaj klawisze swojej klawiatury numerycznej lub skorzystaj z przycisków obok planszy.<br>
+Przyciski klawiatury poruszają doktorka w odpowiednich kierunkach:<br><br>
+7  8  9 <br>
+4  _  6 <br>
+1  2  3 <br><br>
+Jeśli chcesz przeteleportować doktorka użyj klawisza "5" lub "t" na swojej klawiaturze. Pamiętaj, że masz tylko 3 teleportacje na grę! Po zakończonej grze możesz zresetować planszę i zagrać jeszcze raz - użyj do tego przycisku "r".<br>
+Za każdy ruch, w którym nie zginisz zwiększasz swojego scora ;).
+<br><br>
+Docs link: https://docs.google.com/document/d/13rMfs7QGNSwKgsZjAkUUq26ZmsYeGK3iuUSnGvoJv-Q/edit?ts=5fbbc8cc
 
-A project for object-oriented technologies on AGH university.
-
-Developed by:
-- Krzysztof Widenka, [@krzwid](https://github.com/krzwid)
-- Patryk Skupień, [@skupien](https://github.com/skupien)
-- Natalia Brzozowska, [@brzozia](https://github.com/brzozia)
-
-### Game description
-<i>Daleks game</i> is a game with two types of characters:
-- doctor - the main character controlled by a player
-- daleks - monsters who want to eat doctor
-
-To get rid of the daleks from the board and win the game, you have to move the doctor in such a way as to collide the distances with each other or with the dead distances. Dead distances (fossils) are formed precisely when distances collide with each other. They are like very sharp stones on the board. You have two power-ups. The first one is a teleport (3 per each board) and bombs (two per each board).
-
-### Control
-To move the doctor you can use your mouse or keyboard. The keyboard buttons move Doctor in the right directions:
-
-7  &nbsp;8  &nbsp;9 <br>
-4  &nbsp;&nbsp;&nbsp;&nbsp; 6 <br>
-1  &nbsp;2  &nbsp;3 <br>
-- Teleport - "T" or "5" 
-- Bombs - "B".
-- Restart of the game or next level - "R"
-
-### Sample gameplay
+### Przykładowa rozgrywka
 ![](docs/daleksgame.gif)

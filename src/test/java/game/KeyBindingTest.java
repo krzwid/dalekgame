@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class KeyBindingTest {
 
     @Test
-    public void testIsResetKey(){
+    public void isResetKeyTest(){
         //given
 
         //when
@@ -24,7 +24,7 @@ public class KeyBindingTest {
     }
 
     @Test
-    public void testIsMovementKey(){
+    public void isMovementKeyTest(){
         //given
 
         //when
@@ -39,7 +39,7 @@ public class KeyBindingTest {
 
 
     @Test
-    public void testCorrectKeyToDirection(){
+    public void correctKeyToDirectionTest(){
         //given
         String key1 = "2";
 
@@ -51,7 +51,7 @@ public class KeyBindingTest {
     }
 
     @Test
-    public void testWrongKeyToDirection(){
+    public void wrongKeyToDirectionTest(){
         //given
         String key2 = "r";
 

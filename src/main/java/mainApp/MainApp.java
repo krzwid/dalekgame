@@ -24,6 +24,7 @@ public class MainApp extends Application {
     public static final int INITIAL_BOMBS = 2;
     public static final int INITIAL_TELEPORTS = 3;
     public static final int SCORE_ON_WON_GAME = 10;
+    public static final int INITIAL_REWINDS = 3;
 
     @Override
     public void start(Stage primaryStage) {

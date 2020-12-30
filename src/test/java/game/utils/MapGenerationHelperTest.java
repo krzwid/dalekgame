@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MapGenerationHelperTest {
 
     @Test
-    public void checkCreatingDoctor() {
+    public void creatingDoctorTest() {
         //given
         int mapWidth = 10;
         int mapHeight = 10;
@@ -25,15 +25,15 @@ public class MapGenerationHelperTest {
         Doctor generatedDoctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
 
         //then
-        assertEquals(2, generatedDoctor.getBombs());
-        assertEquals(3, generatedDoctor.getTeleports());
+        assertEquals(2, generatedDoctor.getBombs().get());
+        assertEquals(3, generatedDoctor.getTeleports().get());
         assertTrue(generatedDoctor.getPosition().getX() < MainApp.WIDTH);
         assertTrue(generatedDoctor.getPosition().getY() < MainApp.HEIGHT);
         assertTrue(worldMap.getPositionsOfAlive().containsValue(generatedDoctor));
     }
 
     @Test
-    public void checkCreatingDaleks() {
+    public void creatingDaleksTest() {
         //given
         int mapWidth = 10;
         int mapHeight = 10;

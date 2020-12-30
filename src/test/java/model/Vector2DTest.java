@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Vector2DTest {
     @Test
-    public void getCloseToDiagonallyUp() {
+    public void getCloseToDiagonallyUpTest() {
         //given
         Vector2D positionToCatch = new Vector2D(5,5);
         Vector2D myPosition = new Vector2D(1,1);
@@ -27,7 +27,7 @@ public class Vector2DTest {
     }
 
     @Test
-    public void getCloseToNearlyDiagonallyUp() {
+    public void getCloseToNearlyDiagonallyUpTest() {
         //given
         Vector2D positionToCatch = new Vector2D(2,3);
         Vector2D myPosition = new Vector2D(1,1);
@@ -41,7 +41,7 @@ public class Vector2DTest {
     }
 
     @Test
-    public void getCloseToStraightUp() {
+    public void getCloseToStraightUpTest() {
         //given
         Vector2D positionToCatch = new Vector2D(1,4);
         Vector2D myPosition = new Vector2D(1,1);
@@ -55,7 +55,7 @@ public class Vector2DTest {
     }
 
     @Test
-    public void getCloseToDiagonallyDown() {
+    public void getCloseToDiagonallyDownTest() {
         //given
         Vector2D positionToCatch = new Vector2D(1,1);
         Vector2D myPosition = new Vector2D(5,5);
@@ -69,7 +69,7 @@ public class Vector2DTest {
     }
 
     @Test
-    public void getCloseToNearlyDiagonallyDown() {
+    public void getCloseToNearlyDiagonallyDownTest() {
         //given
         Vector2D positionToCatch = new Vector2D(1,3);
         Vector2D myPosition = new Vector2D(4,5);
@@ -83,7 +83,7 @@ public class Vector2DTest {
     }
 
     @Test
-    public void getCloseToStraightDown() {
+    public void getCloseToStraightDownTest() {
         //given
         Vector2D positionToCatch = new Vector2D(1,2);
         Vector2D myPosition = new Vector2D(1,5);

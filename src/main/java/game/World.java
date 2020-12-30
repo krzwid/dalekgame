@@ -6,6 +6,7 @@ import game.entity.Dalek;
 import game.entity.Doctor;
 import game.utils.Direction;
 import game.utils.MapGenerationHelper;
+import javafx.beans.property.SimpleIntegerProperty;
 import mainApp.MainApp;
 import model.Vector2D;
 
@@ -14,9 +15,9 @@ import java.util.List;
 public class World {
     private final WorldMap worldMap;
     private final WorldCollisions worldCollisions;
+    private final SimpleIntegerProperty score = new SimpleIntegerProperty(0);
     private  List<Dalek> dalekList;
     private  Doctor doctor;
-    private int score = 0;
     private int dalekNumber;
 
     @Inject
@@ -35,10 +36,10 @@ public class World {
     }
     private void increaseScoreBy(int i){
         if(doctor.isAlive())
-            score += i;
+            score.set(score.getValue() + i);
     }
 
-    public void initializeWorld(int dalekNumber) { //right now doctor resets bomb and tp every won game
+    public void initializeWorld(int dalekNumber) {
         MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList);
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
         dalekList = MapGenerationHelper.randomPlaceDaleks(worldMap, dalekNumber);
@@ -47,8 +48,9 @@ public class World {
     //actions
     public void resetWorld() {
         if(hasWon()) {
-            int bombsLeft = doctor.getBombs();
-            int teleportsLeft = doctor.getTeleports();
+            int bombsLeft = doctor.getBombs().get();
+            int teleportsLeft = doctor.getTeleports().get();
+            int rewindsLeft = doctor.getRewinds().get();
 
             dalekNumber++;
             this.increaseScoreBy(MainApp.SCORE_ON_WON_GAME);
@@ -56,10 +58,10 @@ public class World {
 
             doctor.setBombs(bombsLeft + 1);
             doctor.setTeleports(teleportsLeft + 1);
-
+            doctor.setRewinds(rewindsLeft + 1);
         }
         if(isGameOver()) {
-            score = 0;
+            score.set(0);
             dalekNumber = MainApp.DALEK_NUMBER;
             this.initializeWorld(dalekNumber);
         }
@@ -72,36 +74,42 @@ public class World {
         this.increaseScoreBy(1);
     }
 
-    public void makeMove(Direction direction) {
+    public boolean makeMove(Direction direction) {
         Vector2D newDocPosition = doctor.getPosition().add(direction.toVector());
         if(worldMap.isInMapBounds(newDocPosition)){
             doctor.move(newDocPosition);
             onWorldAction();
+            return true;
         }
         else {
             System.out.println("What you are trying to do? Wanna run beyond the borders? GL");
+            return false;
         }
     }
 
-    public void makeTeleport() {
+    public boolean makeTeleport() {
         if(doctor.teleport(worldMap.getRandomVector(false))) {
             System.out.println("Teleportation!");
             this.onWorldAction();
+            return true;
         }
         else {
             System.out.println("You've ran out of teleportations!");
+            return false;
         }
     }
 
-    public void useBomb() {
+    public boolean useBomb() {
         if(doctor.useBomb()) {
             System.out.println("Bombard");
             List<Vector2D> vectorsAround = Vector2D.getPositionsAround(getDoctor().getPosition());
             worldMap.destroyObjectsOnVectors(vectorsAround);
             this.onWorldAction();
+            return true;
         }
         else {
             System.out.println("You've ran out of bombs!");
+            return false;
         }
     }
 
@@ -115,16 +123,8 @@ public class World {
     public WorldMap getWorldMap() {
         return worldMap;
     }
-    public int getScore(){
+    public SimpleIntegerProperty getScore(){
         return score;
     }
-    public void setScore(int score){this.score = score;}
-
-    public int howManyTeleports() {
-        return doctor.getTeleports();
-    }
-
-    public int howManyBombs() {
-        return doctor.getBombs();
-    }
+    public void setScore(int score){this.score.set(score);}
 }

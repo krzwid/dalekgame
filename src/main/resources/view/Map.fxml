@@ -14,74 +14,92 @@
    </center>
 
    <right>
-      <VBox alignment="TOP_CENTER" prefHeight="750.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="rightSide" alignment="TOP_CENTER" prefHeight="750.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
+            <Label text="Movement">
+            <VBox.margin>
+               <Insets top="10.0" bottom="10.0"/>
+            </VBox.margin>
+            </Label>
 
-            <HBox maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <VBox fx:id="movementButtons" maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <HBox maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <VBox.margin>
+                     <Insets bottom="0.0" left="15.0" right="15.0" top="0.0" />
+                  </VBox.margin>
+                  <Button fx:id="7" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="NW">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="8" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="N">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="9" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="NE">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </HBox>
+
+               <HBox maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0">
+                  <VBox.margin>
+                     <Insets left="15.0" right="15.0" />
+                  </VBox.margin>
+                  <Button fx:id="4" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="W">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="6" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="E">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="65.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </HBox>
+
+               <HBox maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <VBox.margin>
+                     <Insets left="15.0" right="15.0" />
+                  </VBox.margin>
+                  <Button fx:id="1" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="SW">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="2" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="S">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="3" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="SE">
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </HBox>
+            </VBox>
+
+            <Label text="Actions">
                <VBox.margin>
-                  <Insets bottom="0.0" left="15.0" right="15.0" top="20.0" />
+                  <Insets top="10.0" bottom="10.0" />
                </VBox.margin>
-               <Button fx:id="moveNW" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="NW">
-                  <HBox.margin>
+            </Label>
+            <VBox fx:id="powerUpButtons">
+               <Button fx:id="teleportationButton" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onTeleportationButtonPress" text="Teleport yourself!">
+                  <VBox.margin>
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </HBox.margin>
+                  </VBox.margin></Button>
+               <Button fx:id="bombButton" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBombButtonPress" text="Use a bomb!">
+                  <VBox.margin>
+                     <Insets bottom="20.0" left="5.0" right="5.0" top="5.0" />
+                  </VBox.margin>
                </Button>
-               <Button fx:id="moveN" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="N">
-                  <HBox.margin>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </HBox.margin>
-               </Button>
-               <Button fx:id="moveNE" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="NE">
-                  <HBox.margin>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </HBox.margin>
-               </Button>
-            </HBox>
+            </VBox>
 
-            <HBox maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0">
-               <VBox.margin>
-                  <Insets left="15.0" right="15.0" />
-               </VBox.margin>
-               <Button fx:id="moveW" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="W">
-                  <HBox.margin>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </HBox.margin>
-               </Button>
-               <Button fx:id="moveE" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="E">
-                  <HBox.margin>
-                     <Insets bottom="5.0" left="65.0" right="5.0" top="5.0" />
-                  </HBox.margin>
-               </Button>
-            </HBox>
-
-            <HBox maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <VBox.margin>
-                  <Insets left="15.0" right="15.0" />
-               </VBox.margin>
-               <Button fx:id="moveSW" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="SW">
-                  <HBox.margin>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </HBox.margin>
-               </Button>
-               <Button fx:id="moveS" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="S">
-                  <HBox.margin>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </HBox.margin>
-               </Button>
-               <Button fx:id="moveSE" mnemonicParsing="false" onAction="#onMoveButtonPress" prefWidth="50" text="SE">
-                  <HBox.margin>
-                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                  </HBox.margin>
-               </Button>
-            </HBox>
-
-
-
-            <Button fx:id="teleportationButton" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onTeleportationButtonPress" text="Teleport yourself!">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin></Button>
-            <Button fx:id="bombButton" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onBombButtonPress" text="Use a bomb!">
+            <Button fx:id="undoButton" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onUndoButtonPress" text="Undo move">
                <VBox.margin>
                   <Insets bottom="20.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -91,15 +109,19 @@
                   <Insets bottom="20.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="undoButton" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onResetButtonPress" text="Undo move">
-               <VBox.margin>
-                  <Insets bottom="20.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </Button>
+            <Label fx:id="remainingTeleports" text="Remaining teleports: 0" />
+            <Label fx:id="remainingBombs" text="Remaining Bombs: 0" />
+            <Label fx:id="remainingRewinds" text="Remaining Rewinds: 0" />
             <Label fx:id="scoreLabel" text="Score: 0" />
-            <Label text="Instruction will be added here">
+
+            <Label textAlignment="CENTER" wrapText="true" text="Instruction &#10;&#10;
+Use buttons or your numerical keyboard to move the Doctor and escape from monsters.&#10;
+When two Daleks run into each other they will die and turn into rock.&#10;
+When you run into rock or Dalek you will die and lose!&#10;&#10;
+Bomb kills all Daleks around you.&#10;
+You can use also Teleport and Undo." >
                <VBox.margin>
-                  <Insets top="200.0" />
+                  <Insets top="40.0" right="3" left="3"/>
                </VBox.margin>
             </Label>
 

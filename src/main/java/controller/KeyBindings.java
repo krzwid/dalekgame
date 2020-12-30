@@ -10,17 +10,17 @@ public class KeyBindings {
     public final static String USE_TELEPORT_NUMERICAL = "5";
     public final static String USE_BOMB = "b";
     public final static String USE_RESET = "r";
+    public final static String USE_REWIND = "h";
 
-    //newer version of ke.getText().matches("[1-4|6-9]")
     private static final Map<String, Direction> moveControls = Map.of(
-            "moveSW", SOUTHWEST,
-            "moveS", SOUTH,
-            "moveSE", SOUTHEAST,
-            "moveW", WEST,
-            "moveE", EAST,
-            "moveNW", NORTHWEST,
-            "moveN", NORTH,
-            "moveNE", NORTHEAST
+            "1", SOUTHWEST,
+            "2", SOUTH,
+            "3", SOUTHEAST,
+            "4", WEST,
+            "6", EAST,
+            "7", NORTHWEST,
+            "8", NORTH,
+            "9", NORTHEAST
     );
 
     public static boolean isResetKey(String key) {

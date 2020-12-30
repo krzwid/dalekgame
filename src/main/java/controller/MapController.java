@@ -1,8 +1,13 @@
 package controller;
 
 import com.google.inject.Inject;
+import command.BombCommand;
+import command.CommandRegistry;
+import command.MoveCommand;
+import command.TeleportCommand;
 import game.World;
 import game.utils.Direction;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -10,54 +15,36 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 
-import java.util.List;
-
-
-//TODO add score, bombs left, teleports left to UI, not console
-//TODO: make whole key/button events disabled by boolean flag?
-//TODO make better injection to MapDrawer? Maybe pass it canvas somehow?
 public class MapController {
 
-    @FXML
-    private Canvas canvas;
-
-    @FXML
-    private Button restartButton;
-
-    @FXML private Button moveS;
-    @FXML private Button moveN;
-    @FXML private Button moveE;
-    @FXML private Button moveW;
-    @FXML private Button moveSW;
-    @FXML private Button moveSE;
-    @FXML private Button moveNW;
-    @FXML private Button moveNE;
-
+    @FXML private Canvas canvas;
+    @FXML private VBox movementButtons;
     @FXML private Label scoreLabel;
-
-    @FXML
-    private Button teleportationButton;
-
-    @FXML
-    private Button undoButton;
-
-    @FXML
-    private Button bombButton;
+    @FXML private Button teleportationButton;
+    @FXML private Button restartButton;
+    @FXML private Button undoButton;
+    @FXML private Button bombButton;
+    @FXML private Label remainingTeleports;
+    @FXML private Label remainingBombs;
+    @FXML private Label remainingRewinds;
 
     private final World world;
     private final MapDrafter mapDrafter;
-
+    private final CommandRegistry commandRegistry;
 
     @Inject
-    public MapController(World world, MapDrafter mapDrafter) {
+    public MapController(World world, MapDrafter mapDrafter, CommandRegistry commandRegistry) {
         this.world = world;
         this.mapDrafter = mapDrafter;
+        this.commandRegistry = commandRegistry;
     }
 
     public void initialize() {
         mapDrafter.initialize(canvas, world.getWorldMap());
-        setAllButtonsToGameState();
+        setButtonsAndLabelsBinding();
+        setResetButtonState(true);
     }
 
     public void addKeyboardEventToScene(Scene scene){
@@ -69,88 +56,67 @@ public class MapController {
     }
 
     private void executeKeyFunction(String keyChar){
-        //  if\else used to disable other buttons when the game is over
-        if(world.isGameOver() || world.hasWon()) {
+        if(world.isGameOver()|| world.hasWon()) {
             if(KeyBindings.isResetKey(keyChar)) {
-                this.onResetWorld();
-                setAllButtonsToGameState();
+                onResetWorld();
+                setResetButtonState(true);
+                setButtonsAndLabelsBinding();
             }
         }
         else {
             switch (keyChar) {
                 case KeyBindings.USE_TELEPORT, KeyBindings.USE_TELEPORT_NUMERICAL -> {
                     onUseTeleport();
-                    if(world.howManyTeleports() == 0) {
-                        teleportationButton.setDisable(true);
-                    }
                 }
                 case KeyBindings.USE_BOMB -> {
                     onUseBomb();
-                    if(world.howManyBombs() == 0) {
-                        bombButton.setDisable(true);
-                    }
+                }
+                case KeyBindings.USE_REWIND -> {
+                    onUseRewind();
                 }
                 default -> {
                     if (KeyBindings.isMovementKey(keyChar)) {
-                        this.onMoveKeyPress(KeyBindings.keyToDirection(keyChar));
-                        System.out.println("Your score: " + world.getScore());
+                        onMoveKeyPress(KeyBindings.keyToDirection(keyChar));
+                        System.out.println("Your score: " + world.getScore().get());
                     }
                 }
             }
         }
-
         mapDrafter.drawScreen(world.getWorldMap());
         this.checkEndGame();
-        setScore();
     }
 
     private void checkEndGame(){
         if(world.hasWon()) {
             System.out.println("Y O U   W O N!!!");
-            mapDrafter.drawTextOnVictory(world.getScore());
-            setAllButtonsToWonOrLostState();
+            mapDrafter.drawTextOnVictory(world.getScore().get());
+            setResetButtonState(false);
         }
         if(world.isGameOver()) {
             System.out.println("Y O U   L O S T  :(");
-            mapDrafter.drawTextOnLosing(world.getScore());
-            setAllButtonsToWonOrLostState();
+            mapDrafter.drawTextOnLosing(world.getScore().get());
+            setResetButtonState(false);
         }
     }
 
-    private void setAllButtonsToGameState() {
-        bombButton.setDisable(false);
-        teleportationButton.setDisable(false);
-        restartButton.setDisable(true);
-        undoButton.setDisable(false);
-        moveS.setDisable(false);
-        moveN.setDisable(false);
-        moveE.setDisable(false);
-        moveW.setDisable(false);
-        moveSW.setDisable(false);
-        moveSE.setDisable(false);
-        moveNW.setDisable(false);
-        moveNE.setDisable(false);
+    private void setButtonsAndLabelsBinding() {
+        movementButtons.disableProperty().bind(restartButton.disabledProperty().not());
+        bombButton.disableProperty().bind(world.getDoctor().getBombs().isEqualTo(0)
+                .or(restartButton.disabledProperty().not()));
+        teleportationButton.disableProperty().bind(world.getDoctor().getTeleports().isEqualTo(0)
+                .or(restartButton.disabledProperty().not()));
+        undoButton.disableProperty().bind(world.getDoctor().getRewinds().isEqualTo(0)
+                .or(commandRegistry.getStackSizeProperty().isEqualTo(0))
+                .or(restartButton.disabledProperty().not()));
+
+        remainingTeleports.textProperty().bind(Bindings.format("Remaining teleports: %d",world.getDoctor().getTeleports()));
+        remainingBombs.textProperty().bind(Bindings.format("Remaining bombs: %d",world.getDoctor().getBombs()));
+        remainingRewinds.textProperty().bind(Bindings.format("Remaining rewinds: %d",world.getDoctor().getRewinds()));
+        scoreLabel.textProperty().bind(Bindings.format("Score: %d", world.getScore()));
     }
 
-    private void setAllButtonsToWonOrLostState() {
-        bombButton.setDisable(true);
-        teleportationButton.setDisable(true);
-        restartButton.setDisable(false);
-        undoButton.setDisable(true);
-        moveS.setDisable(true);
-        moveN.setDisable(true);
-        moveE.setDisable(true);
-        moveW.setDisable(true);
-        moveSW.setDisable(true);
-        moveSE.setDisable(true);
-        moveNW.setDisable(true);
-        moveNE.setDisable(true);
-    }
-
-    private void setScore() {
-        int score = world.getScore();
-        String scoreText = "Score: " + score;
-        scoreLabel.setText(scoreText);
+    private void setResetButtonState(boolean disable){
+        restartButton.setDisable(disable);
     }
 
     @FXML
@@ -169,24 +135,45 @@ public class MapController {
     }
 
     @FXML
+    private void onUndoButtonPress() { executeKeyFunction(KeyBindings.USE_REWIND);}
+
+    @FXML
     private void onMoveButtonPress(ActionEvent event){
         String key = ((Button)event.getSource()).getId();
         executeKeyFunction(key);
     }
 
     private void onMoveKeyPress(Direction direction) {
-        world.makeMove(direction);
+        commandRegistry.executeCommand(
+                new MoveCommand(this.world, direction)
+        );
     }
 
     private void onUseTeleport() {
-        world.makeTeleport();
+        commandRegistry.executeCommand(
+                new TeleportCommand(this.world)
+        );
     }
 
     private void onUseBomb() {
-        world.useBomb();
+        commandRegistry.executeCommand(
+                new BombCommand(this.world)
+        );
+    }
+
+    private void onUseRewind() {
+        if(commandRegistry.getStackSizeProperty().get() > 0 && world.getDoctor().useRewind()) {
+            commandRegistry.undo();
+            System.out.println("It's rewind time!");
+            world.setScore(world.getScore().get() -1);
+        }
+        else {
+            System.out.println("Cannot rewind: empty command stack or no rewinds left");
+        }
     }
 
     private void onResetWorld() {
         world.resetWorld();
+        commandRegistry.clearCommandStack();
     }
 }

@@ -13,7 +13,7 @@ public class MapGenerationHelper {
 
     public static Doctor randomPlaceDoctor(WorldMap worldMap) {
         Vector2D doctorPosition = worldMap.getRandomVector(true);
-        Doctor doctor = new Doctor(doctorPosition,  MainApp.INITIAL_BOMBS, MainApp.INITIAL_TELEPORTS);
+        Doctor doctor = new Doctor(doctorPosition,  MainApp.INITIAL_BOMBS, MainApp.INITIAL_TELEPORTS, MainApp.INITIAL_REWINDS);
         worldMap.addEntity(doctor);
         return doctor;
     }

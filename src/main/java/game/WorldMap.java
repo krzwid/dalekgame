@@ -3,7 +3,6 @@ package game;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import game.entity.Dalek;
-import game.entity.Doctor;
 import game.entity.MapObject;
 import model.Vector2D;
 
@@ -82,9 +81,9 @@ public class WorldMap  {
     public void positionChange(MapObject object) {
         positionsOfAlive.put(object.getPosition(), object);
     }
-
-
-
+    public void removeAlivePosition(Vector2D position){
+        positionsOfAlive.remove(position);
+    }
     public void destroyObjectsOnVectors(List<Vector2D> positionsToDestroy) {
         positionsToDestroy.stream()
                 .filter(this::isInMapBounds)
@@ -97,6 +96,29 @@ public class WorldMap  {
                 });
     }
 
+    public List<Dalek> addDaleksToMap(List<Vector2D> positionList, boolean areAlive){
+        List<Dalek> dalekList = new ArrayList<>();
+
+        positionList.forEach(position -> {
+            if(isOccupied(position)) {
+                throw new RuntimeException("Place is already occupied!");
+            }
+
+            Dalek dalek = new Dalek(position);
+
+            if(areAlive){
+                getPositionsOfAlive().put(position,dalek);
+            }
+            else{
+                dalek.setAlive(areAlive);
+                getPositionsOfDead().put(position, dalek);
+            }
+
+            dalekList.add(dalek);
+        });
+        return dalekList;
+    }
+
     //getters/setters
     public int getHeight() {
         return height;
@@ -106,5 +128,8 @@ public class WorldMap  {
     }
     public Map<Vector2D, MapObject> getPositionsOfAlive() {
         return positionsOfAlive;
+    }
+    public Map<Vector2D, MapObject> getPositionsOfDead() {
+        return positionsOfDead;
     }
 }

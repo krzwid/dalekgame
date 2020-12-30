@@ -1,17 +1,20 @@
 package game.entity;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import mainApp.MainApp;
 import model.Vector2D;
 
 public class Doctor extends MapObject {
-    private int bombs;
-    private int teleports;
+    private final SimpleIntegerProperty bombs;
+    private final SimpleIntegerProperty teleports;
+    private final SimpleIntegerProperty rewinds;
     private Vector2D prevPosition;
 
-    public Doctor(Vector2D position, int bombs, int teleports) {
+    public Doctor(Vector2D position, int bombs, int teleports, int rewinds) {
         super(position);
-        this.bombs = bombs;
-        this.teleports = teleports;
+        this.bombs = new SimpleIntegerProperty(bombs);
+        this.teleports = new SimpleIntegerProperty(teleports);
+        this.rewinds = new SimpleIntegerProperty(rewinds);
         this.prevPosition = position;
     }
 
@@ -21,38 +24,64 @@ public class Doctor extends MapObject {
     }
 
     public boolean teleport(Vector2D newPosition) {
-        if(teleports > 0) {
+        if(teleports.get() > 0) {
             this.move(newPosition);
-            teleports--;
+            teleports.set(teleports.getValue() - 1);
             return true;
         }
         return false;
     }
 
     public boolean useBomb() {
-        if(bombs > 0) {
+        if(bombs.get() > 0) {
             this.move(getPosition());
-            bombs--;
+            bombs.set(bombs.getValue() - 1);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean useRewind() {
+        if(rewinds.get() > 0) {
+            rewinds.set(rewinds.getValue() - 1);
             return true;
         }
         return false;
     }
 
     public void setBombs(int bombs) {
-        if(bombs > MainApp.INITIAL_BOMBS) this.bombs = MainApp.INITIAL_BOMBS;
-        this.bombs = bombs;
+        this.bombs.set(Math.min(bombs, MainApp.INITIAL_BOMBS));
     }
+
     public void setTeleports(int teleports) {
-        if(teleports > MainApp.INITIAL_TELEPORTS) this.teleports = MainApp.INITIAL_TELEPORTS;
-        this.teleports = teleports;
+        this.teleports.set(Math.min(teleports, MainApp.INITIAL_TELEPORTS));
     }
-    public int getBombs() {
+
+    public void setRewinds(int rewinds) {
+        this.rewinds.set(Math.min(rewinds, MainApp.INITIAL_REWINDS));
+    }
+
+    public SimpleIntegerProperty getBombs() {
         return bombs;
     }
-    public int getTeleports() {
+
+    public SimpleIntegerProperty getTeleports() {
         return teleports;
     }
+
+    public SimpleIntegerProperty getRewinds() {
+        return rewinds;
+    }
+
     public Vector2D getPrevPosition() {
         return this.prevPosition;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
+    }
+
+    public void setPrevPosition(Vector2D prevPosition) {
+        this.prevPosition = prevPosition;
     }
 }
